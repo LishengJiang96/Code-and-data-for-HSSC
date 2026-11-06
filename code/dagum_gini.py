@@ -5,7 +5,7 @@ computes the overall Gini coefficient for each year, decomposes it into
 intra-regional differences, inter-regional differences and the supervariable
 density, and writes ``output/dagum_results.csv``.
 
-The formulas follow Eqs. (17)-(21) of the manuscript.  Region labels are
+The formulas follow Eqs. (15)-(18) of the manuscript.  Region labels are
 Ganpo (GP), Middle Reaches (MR) and Downstream (DR).
 
 Run from the package root:  python code/dagum_gini.py
@@ -26,7 +26,7 @@ SHORT = {"Ganpo": "GP", "Middle Reaches": "MR", "Downstream": "DR"}
 
 
 def gini_overall(values):
-    """Overall Gini coefficient (Eq. 17)."""
+    """Overall Gini coefficient (Eq. 15)."""
     values = np.asarray(values, dtype=float)
     n = values.size
     mu = values.mean()
@@ -35,7 +35,7 @@ def gini_overall(values):
 
 
 def gini_within(values):
-    """Gini coefficient of one region (Eq. 18, left)."""
+    """Gini coefficient of one region (Eq. 16, left)."""
     values = np.asarray(values, dtype=float)
     n = values.size
     mu = values.mean()
@@ -44,7 +44,7 @@ def gini_within(values):
 
 
 def gini_between(a, b):
-    """Gini coefficient between two regions (Eq. 18, right)."""
+    """Gini coefficient between two regions (Eq. 16, right)."""
     a = np.asarray(a, dtype=float)
     b = np.asarray(b, dtype=float)
     return np.abs(a[:, None] - b[None, :]).sum() / (
@@ -53,7 +53,7 @@ def gini_between(a, b):
 
 
 def relative_impact(a, b):
-    """Relative impact D_jh (Eq. 19).
+    """Relative impact R_jh (Eq. 17).
 
     Dagum's decomposition orders the two regions so that region j has the
     higher mean; otherwise D_jh can be negative and the between-region term
@@ -145,7 +145,7 @@ def main():
           f"supervariable = {average['Super']:.2f}%")
     print(f"Additivity check (should be 100): {average['Check']:.2f}%")
     print("Benchmarks in the manuscript: Gini 0.127 (2010) -> 0.077 (2023); "
-          "average contributions 35.82% / 19.51% / 44.67%.")
+          "average contributions 35.85% / 19.23% / 44.92%.")
 
 
 if __name__ == "__main__":

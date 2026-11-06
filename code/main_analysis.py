@@ -6,10 +6,10 @@ Workflow
 2. Compute entropy and CRITIC weights and combine them with the uninorm
    operator (Eqs. 1-7 of the manuscript).
 3. Fit generalised extreme value distributions to the maximum and minimum
-   evaluation gaps and derive the goodness/badness probabilities (Eqs. 8-11).
+   evaluation gaps and derive the goodness/badness probabilities (Eq. 8 and the text that follows).
 4. Aggregate the probabilities into a composite evaluation for each city-year
-   (Eqs. 10-11).
-5. Compute the improved coupling coordination degree (Eqs. 12-16).
+   (Eqs. 9-10).
+5. Compute the improved coupling coordination degree (Eqs. 11-14).
 6. Write the scores, weights, CCD values and a region-tagged CSV that is used
    by the Dagum decomposition and kernel density scripts.
 

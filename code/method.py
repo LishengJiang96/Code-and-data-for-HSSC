@@ -26,9 +26,8 @@ def entropy(x):
     """Entropy weight of each column of ``x`` (rows = observations).
 
     The evaluations are min-max standardised, converted to column shares, and
-    then used to compute the entropy weight.  The revised form in Eq. (3) of
-    the manuscript adds 1 / n_indicators before renormalising, which prevents
-    extremely small weights.
+    then used to compute the entropy weight.  The revised form (Eq. 3 of the manuscript) adds 1 / n_indicators before
+    renormalising, which prevents extremely small weights.
     """
     n, m = x.shape
 
@@ -56,7 +55,7 @@ def critic(x):
 
     The conflict intensity is measured as the column standard deviation
     multiplied by the sum of (1 - correlation) against the other indicators.
-    The revised form in Eq. (6) adds 1 / n_indicators before renormalising.
+    The revised form (Eq. 5 of the manuscript) adds 1 / n_indicators before renormalising.
     """
     n, m = x.shape
 
@@ -69,11 +68,11 @@ def critic(x):
     # Correlation matrix (Eq. 4), converted to conflict intensity.
     R = 1 - np.corrcoef(x_norm, rowvar=False)
 
-    # Conflict indicator and CRITIC weight (Eq. 5).
+    # Information content and CRITIC weight (defined after Eq. 4).
     C = std_j * R.sum(axis=0)
     w = C / C.sum()
 
-    # Revised CRITIC weight (Eq. 6).
+    # Revised CRITIC weight (Eq. 5).
     w = (w + 1 / m) / np.sum(w + 1 / m)
     return w
 
@@ -122,7 +121,7 @@ def max_c(x):
 
 
 def fit_gev(values):
-    """Maximum-likelihood fit of a GEV distribution (Eq. 9)."""
+    """Maximum-likelihood fit of a GEV distribution (Eq. 8)."""
     return genextreme.fit(values)
 
 
@@ -179,18 +178,18 @@ def ccd(values):
     """Improved coupling coordination degree for two subsystems.
 
     ``values`` is a sequence of subsystem evaluations, each in [0, 1].
-    Returns (C, T, D) as defined by Eqs. (12)-(16) of the manuscript.
+    Returns (C, T, D) as defined by Eqs. (11)-(14) of the manuscript.
     """
     values = np.asarray(values, dtype=float)
     noa = len(values)
     w = np.ones((noa, 1)) / noa
 
-    # Comprehensive development index T (Eq. 13).
+    # Comprehensive development index T (Eq. 12).
     T = 0
     for j in range(noa):
         T += w[j] * values[j]
 
-    # Coupling degree C (Eq. 12): dispersion term x product term.
+    # Coupling degree C (Eq. 11): dispersion term x product term.
     c1 = 0
     c2 = 1
     max_value = np.max(values)
@@ -205,6 +204,6 @@ def ccd(values):
 
     c = ((1 - c1 / m) * (c2) ** (1 / (noa - 1))) ** 0.5
 
-    # Coupling coordination degree D (Eq. 16).
+    # Coupling coordination degree D (Eq. 14).
     d = (c * T) ** 0.5
     return c, T[0], d[0]
